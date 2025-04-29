@@ -23,5 +23,4 @@ class Board{
         int getPlayerHealth();
         int getTreasureCollected();
         bool playGame();
-
 };
