@@ -2,7 +2,6 @@
 
 Cell::Cell(){
     uncovered = false;
-    symbol = '?';
     hasOpponent = false;
 }
 

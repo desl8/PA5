@@ -16,7 +16,7 @@ class Cell{
         bool getOpponentState() const;
         void display();
 
-        virtual bool uncover();
+        virtual bool uncover(int*) = 0;
 
         friend std::ostream& operator<<(std::ostream&, const Cell&);
 };

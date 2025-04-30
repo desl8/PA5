@@ -1,5 +1,8 @@
 #include "dynamicArray.h"
 #include "cell.h"
+#include "emptycell.h"
+#include "treasurecell.h"
+#include "trapcell.h"
 
 class Board{
     int playerX;
