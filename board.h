@@ -1,3 +1,4 @@
+#include <iostream>
 #include "dynamicArray.h"
 #include "cell.h"
 #include "emptycell.h"
@@ -11,7 +12,7 @@ class Board{
     int treasureCollected;
     DynamicArray<DynamicArray<Cell>> cellMap;
 
-    void generate(int, int);
+    void generate(int, int, int, int);
     bool moveUp();
     bool moveDown();
     bool moveLeft();
@@ -21,6 +22,7 @@ class Board{
     public:
         Board();
         Board(int, int, int, int, DynamicArray<DynamicArray<Cell>>);
+        Board(const Board&);
         void setPlayerHealth(int);
         void setTreasureCollected(int);
         int getPlayerHealth();
