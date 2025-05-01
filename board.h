@@ -13,10 +13,10 @@ class Board{
     DynamicArray<DynamicArray<Cell>> cellMap;
 
     void generate(int, int, int, int);
-    bool moveUp();
-    bool moveDown();
-    bool moveLeft();
-    bool moveRight();
+    void moveUp();
+    void moveDown();
+    void moveLeft();
+    void moveRight();
 
 
     public:
@@ -28,4 +28,5 @@ class Board{
         int getPlayerHealth();
         int getTreasureCollected();
         bool playGame();
+        friend std::ostream& operator<<(std::ostream&, const Board&);
 };
