@@ -1,3 +1,6 @@
+#ifndef BOARD_H
+#define BOARD_H
+
 #include <iostream>
 #include "dynamicArray.h"
 #include "cell.h"
@@ -10,7 +13,7 @@ class Board{
     int playerY;
     int playerHealth;
     int treasureCollected;
-    DynamicArray<DynamicArray<Cell>> cellMap;
+    DynamicArray<DynamicArray<Cell*>> cellMap;
 
     void generate(int, int, int, int);
     void moveUp();
@@ -21,7 +24,7 @@ class Board{
 
     public:
         Board();
-        Board(int, int, int, int, DynamicArray<DynamicArray<Cell>>);
+        Board(int, int, int, int, DynamicArray<DynamicArray<Cell*>>);
         Board(const Board&);
         void setPlayerHealth(int);
         void setTreasureCollected(int);
@@ -30,3 +33,4 @@ class Board{
         bool playGame();
         friend std::ostream& operator<<(std::ostream&, const Board&);
 };
+#endif

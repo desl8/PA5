@@ -1,3 +1,6 @@
+#ifndef CELL_H
+#define CELL_H
+
 #include <iostream>
 
 class Cell{
@@ -20,3 +23,4 @@ class Cell{
 
         friend std::ostream& operator<<(std::ostream&, const Cell&);
 };
+#endif

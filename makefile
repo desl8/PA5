@@ -1,5 +1,7 @@
-treasure_hunt: board.o cell.o empty_cell.o treasure_cell.o trap_cell.o helpers.o
-	g++ -o treasure_hunt board.o cell.o empty_cell.o treasure_cell.o trap_cell.o helpers.o -g
+treasure_hunt: main.o board.o cell.o emptycell.o treasurecell.o trapcell.o helpers.o
+	g++ -o treasure_hunt main.o board.o cell.o emptycell.o treasurecell.o trapcell.o helpers.o -g
+main.o: main.cpp
+	g++ -c main.cpp -g
 board.o: board.cpp board.h cell.h emptycell.h treasurecell.h trapcell.h
 	g++ -c board.cpp -g
 cell.o: cell.cpp cell.h

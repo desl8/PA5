@@ -9,12 +9,10 @@ Board::Board() {
     playerY = 0;
     playerHealth = 100;
     treasureCollected = 0;
-    cellMap = DynamicArray<DynamicArray<Cell>>();
-
-    generate(ROWS, COLS, TRAPS, TREASURES);
+    cellMap = DynamicArray<DynamicArray<Cell*>>();
 }
 
-Board::Board(int x, int y, int h, int t, DynamicArray<DynamicArray<Cell>> map) {
+Board::Board(int x, int y, int h, int t, DynamicArray<DynamicArray<Cell*>> map) {
     playerX = x;
     playerY = y;
     playerHealth = h;
@@ -33,9 +31,10 @@ Board::Board(const Board& rhs) {
 void Board::generate(int rows, int cols, int traps, int treasures) {
     cellMap.clearArray();
     for (int i = 0; i < rows; i++) {
-        DynamicArray<Cell> row = DynamicArray<Cell>();
+        DynamicArray<Cell*> row;
         for (int j = 0; j < cols; j++) {
-            row.addElementToEndOfArr(EmptyCell());
+            Cell* temp = new EmptyCell();
+            row.addElementToEndOfArr(temp);
         }
         cellMap.addElementToEndOfArr(row);
     }
@@ -43,39 +42,43 @@ void Board::generate(int rows, int cols, int traps, int treasures) {
     while (i < traps) {
         int x = rand() % rows;
         int y = rand() % cols;
-        if (cellMap.getElementAtIndex(x).getElementAtIndex(y).getSymbol() == '.') { // If the cell is empty
-            cellMap.getElementAtIndex(x).replaceElementAtIndex(y, TrapCell());
+        std::cout << "x: " << x << " y: " << y << std::endl;
+        if (cellMap.getElementAtIndex(x).getElementAtIndex(y)->getSymbol() == '.' && !(x==0 && y==0)) { // If the cell is empty and not the start
+            std::cout << "Placing trap at x: " << x << " y: " << y << std::endl << "Traps placed: " << i << std::endl;
+            TrapCell* temp = new TrapCell();
+            cellMap.getElementAtIndex(x).replaceElementAtIndex(y, temp);
             i++;
         }
     }
-    int j = 0; //number of traps placed
+    int j = 0; //number of treasures placed
     while (j < treasures) {
         int x = rand() % rows;
         int y = rand() % cols;
         bool edgeopen = false; //Whether the cell is surrounded
-        if (cellMap.getElementAtIndex(x).getElementAtIndex(y).getSymbol() == '.') { // If the cell is empty
+        if (cellMap.getElementAtIndex(x).getElementAtIndex(y)->getSymbol() == '.' && !(x==0 && y==0)) { // If the cell is empty
             if (y>0){ // If not on the top edge
-                if(cellMap.getElementAtIndex(x).getElementAtIndex(y-1).getSymbol() != 'T'){ // If the cell above is not a trap
+                if(cellMap.getElementAtIndex(x).getElementAtIndex(y-1)->getSymbol() != 'T'){ // If the cell above is not a trap
                     edgeopen = true;
                 }
             }
             if (x>0){ // If not on the left edge
-                if(cellMap.getElementAtIndex(x-1).getElementAtIndex(y).getSymbol() != 'T'){ // If the cell to the left is not a trap
+                if(cellMap.getElementAtIndex(x-1).getElementAtIndex(y)->getSymbol() != 'T'){ // If the cell to the left is not a trap
                     edgeopen = true;
                 }
             }
             if (y<rows-1){ // If not on the bottom edge
-                if(cellMap.getElementAtIndex(x).getElementAtIndex(y+1).getSymbol() != 'T'){ // If the cell below is not a trap
+                if(cellMap.getElementAtIndex(x).getElementAtIndex(y+1)->getSymbol() != 'T'){ // If the cell below is not a trap
                     edgeopen = true;
                 }
             }
             if (x<cols-1){ // If not on the right edge
-                if(cellMap.getElementAtIndex(x+1).getElementAtIndex(y).getSymbol() != 'T'){ // If the cell to the right is not a trap
+                if(cellMap.getElementAtIndex(x+1).getElementAtIndex(y)->getSymbol() != 'T'){ // If the cell to the right is not a trap
                     edgeopen = true;
                 }
             }
-            if (edgeopen){
-                cellMap.getElementAtIndex(x).replaceElementAtIndex(y, TrapCell());
+            if (edgeopen && !(x==0 && y==0)){ // If the cell is not surrounded and not the starting cell
+                TreasureCell* temp = new TreasureCell();
+                cellMap.getElementAtIndex(x).replaceElementAtIndex(y, temp);
                 j++;
             }
         }
@@ -85,7 +88,7 @@ void Board::generate(int rows, int cols, int traps, int treasures) {
 void Board::moveUp() {
     if (playerY > 0) {
         playerY--;
-        if(cellMap.getElementAtIndex(playerX).getElementAtIndex(playerY).uncover(&playerHealth)){
+        if(cellMap.getElementAtIndex(playerX).getElementAtIndex(playerY)->uncover(&playerHealth)){
             treasureCollected++;
         }
     }
@@ -97,7 +100,7 @@ void Board::moveUp() {
 void Board::moveDown() {
     if (playerY < ROWS - 1) {
         playerY++;
-        if(cellMap.getElementAtIndex(playerX).getElementAtIndex(playerY).uncover(&playerHealth)){
+        if(cellMap.getElementAtIndex(playerX).getElementAtIndex(playerY)->uncover(&playerHealth)){
             treasureCollected++;
         }
     }
@@ -109,7 +112,7 @@ void Board::moveDown() {
 void Board::moveLeft() {
     if (playerX > 0) {
         playerX--;
-        if(cellMap.getElementAtIndex(playerX).getElementAtIndex(playerY).uncover(&playerHealth)){
+        if(cellMap.getElementAtIndex(playerX).getElementAtIndex(playerY)->uncover(&playerHealth)){
             treasureCollected++;
         }
     }
@@ -121,7 +124,7 @@ void Board::moveLeft() {
 void Board::moveRight() {
     if (playerX < COLS - 1) {
         playerX++;
-        if(cellMap.getElementAtIndex(playerX).getElementAtIndex(playerY).uncover(&playerHealth)){
+        if(cellMap.getElementAtIndex(playerX).getElementAtIndex(playerY)->uncover(&playerHealth)){
             treasureCollected++;
         }
     }
@@ -145,6 +148,7 @@ int Board::getTreasureCollected() {
 }
 
 bool Board::playGame() {
+    generate(ROWS, COLS, TRAPS, TREASURES);
     while (playerHealth > 0) {
         std::cout << "Player Health: " << playerHealth << std::endl;
         std::cout << "Treasures Collected: " << treasureCollected/TREASURES << std::endl;

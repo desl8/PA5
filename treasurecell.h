@@ -1,3 +1,6 @@
+#ifndef TREASURECELL_H
+#define TREASURECELL_H
+
 #include "cell.h"
 
 class TreasureCell : public Cell {
@@ -7,3 +10,4 @@ class TreasureCell : public Cell {
         TreasureCell(const TreasureCell&);
         bool uncover(int*);
 };
+#endif

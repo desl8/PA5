@@ -30,8 +30,6 @@ class DynamicArray{
         void replaceElementAtIndex(int i, T newItem);
         void removeElementAtIndex(int i);
         void clearArray();
-        
-        friend ofstream& operator <<(ofstream& out, DynamicArray<T> arr);
 };
 #include "dynamicArray.cpp"
 #endif

@@ -1,3 +1,6 @@
+#ifndef EMPTYCELL_H
+#define EMPTYCELL_H
+
 #include "cell.h"
 
 class EmptyCell : public Cell {
@@ -7,3 +10,4 @@ class EmptyCell : public Cell {
         EmptyCell(const EmptyCell&);
         bool uncover(int*);
 };
+#endif

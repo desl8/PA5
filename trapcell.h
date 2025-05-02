@@ -1,3 +1,6 @@
+#ifndef TRAPCELL_H
+#define TRAPCELL_H
+
 #include "cell.h"
 
 class TrapCell : public Cell {
@@ -7,3 +10,4 @@ class TrapCell : public Cell {
         TrapCell(const TrapCell&);
         bool uncover(int*);
 };
+#endif
