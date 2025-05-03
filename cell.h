@@ -17,7 +17,7 @@ class Cell{
         bool getUncovered() const;
         char getSymbol() const;
         bool getOpponentState() const;
-        void display();
+        virtual void display() = 0;
 
         virtual bool uncover(int*) = 0;
 

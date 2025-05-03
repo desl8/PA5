@@ -8,6 +8,7 @@ class TreasureCell : public Cell {
         TreasureCell();
         TreasureCell(bool, char, bool);
         TreasureCell(const TreasureCell&);
+        void display();
         bool uncover(int*);
 };
 #endif

@@ -8,6 +8,7 @@ class EmptyCell : public Cell {
         EmptyCell();
         EmptyCell(bool, char, bool);
         EmptyCell(const EmptyCell&);
+        void display();
         bool uncover(int*);
 };
 #endif

@@ -11,18 +11,20 @@ int main(){
             std::cout << "Congratulations! You won " << winStreak << " games in a row!" << std::endl;
         }
         else{
-            std::cout << "Game over! You lost!" << std::endl;
             std::cout << "Your win streak was: " << winStreak << std::endl;
             winStreak = 0;
         }
         char playAgain;
         std::cout << "Do you want to play again? (y/n): ";
         std::cin >> playAgain;
-        if(playAgain != 'n'){
-            std::cout << "Thanks for playing! Goodbye!" << std::endl;
+        while(playAgain != 'y' && playAgain != 'n'){
+            std::cout << "Invalid input. Please enter 'y' or 'n': ";
+            std::cin >> playAgain;
+        }
+        if(playAgain == 'n'){
+            std::cout << "Thanks for playing!" << std::endl;
             return 0;
         }
     }
-
     return 0; // So intellisense doesn't complain
 }

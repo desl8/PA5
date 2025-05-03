@@ -4,12 +4,15 @@
 
 std::ostream& operator<<(std::ostream& out, const Cell& c){
     out << "[ ";
-    //if(c.getUncovered()){
+    if(c.hasOpponent){
+        std::cout << 'O';
+    }
+    else if(c.uncovered){
         out << c.symbol;
-    //}
-    //else{
-    //    out << '.';
-    //}
+    }
+    else{
+        out << '.';
+    }
     out << " ]";
     return out;
 }

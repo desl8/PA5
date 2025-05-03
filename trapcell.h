@@ -8,6 +8,7 @@ class TrapCell : public Cell {
         TrapCell();
         TrapCell(bool, char, bool);
         TrapCell(const TrapCell&);
+        void display();
         bool uncover(int*);
 };
 #endif

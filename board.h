@@ -13,6 +13,8 @@ class Board{
     int playerY;
     int playerHealth;
     int treasureCollected;
+    int opponentX;
+    int opponentY;
     DynamicArray<DynamicArray<Cell*>> cellMap;
 
     void generate(int, int, int, int);
@@ -24,7 +26,7 @@ class Board{
 
     public:
         Board();
-        Board(int, int, int, int, DynamicArray<DynamicArray<Cell*>>);
+        Board(int, int, int, int, DynamicArray<DynamicArray<Cell*>>, int, int);
         Board(const Board&);
         void setPlayerHealth(int);
         void setTreasureCollected(int);

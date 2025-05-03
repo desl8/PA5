@@ -10,14 +10,18 @@ Board::Board() {
     playerHealth = 100;
     treasureCollected = 0;
     cellMap = DynamicArray<DynamicArray<Cell*>>();
+    opponentX = 0;
+    opponentY = 0;
 }
 
-Board::Board(int x, int y, int h, int t, DynamicArray<DynamicArray<Cell*>> map) {
+Board::Board(int x, int y, int h, int t, DynamicArray<DynamicArray<Cell*>> map, int ox, int oy) {
     playerX = x;
     playerY = y;
     playerHealth = h;
     treasureCollected = t;
     cellMap = map;
+    opponentX = ox;
+    opponentY = oy;
 }
 
 Board::Board(const Board& rhs) {
@@ -26,6 +30,8 @@ Board::Board(const Board& rhs) {
     playerHealth = rhs.playerHealth;
     treasureCollected = rhs.treasureCollected;
     cellMap = rhs.cellMap;
+    opponentX = rhs.opponentX;
+    opponentY = rhs.opponentY;
 }
 
 void Board::generate(int rows, int cols, int traps, int treasures) {
@@ -45,7 +51,7 @@ void Board::generate(int rows, int cols, int traps, int treasures) {
         std::cout << "x: " << x << " y: " << y << std::endl;
         if (cellMap.getElementAtIndex(x).getElementAtIndex(y)->getSymbol() == '.' && !(x==0 && y==0)) { // If the cell is empty and not the start
             std::cout << "Placing trap at x: " << x << " y: " << y << std::endl << "Traps placed: " << i << std::endl;
-            TrapCell* temp = new TrapCell();
+            Cell* temp = new TrapCell;
             cellMap.getElementAtIndex(x).replaceElementAtIndex(y, temp);
             i++;
         }
@@ -77,12 +83,17 @@ void Board::generate(int rows, int cols, int traps, int treasures) {
                 }
             }
             if (edgeopen && !(x==0 && y==0)){ // If the cell is not surrounded and not the starting cell
-                TreasureCell* temp = new TreasureCell();
+                Cell* temp = new TreasureCell;
                 cellMap.getElementAtIndex(x).replaceElementAtIndex(y, temp);
                 j++;
             }
         }
     }
+    while(opponentX == 0 && opponentY == 0){ // Make sure the opponent is not on the same cell as the player
+        opponentX = rand() % rows;
+        opponentY = rand() % cols;
+    }
+    cellMap.getElementAtIndex(opponentX).getElementAtIndex(opponentY)->setOpponentState(true);
 }
 
 void Board::moveUp() {
@@ -151,7 +162,7 @@ bool Board::playGame() {
     generate(ROWS, COLS, TRAPS, TREASURES);
     while (playerHealth > 0) {
         std::cout << "Player Health: " << playerHealth << std::endl;
-        std::cout << "Treasures Collected: " << treasureCollected/TREASURES << std::endl;
+        std::cout << "Treasures Collected: " << treasureCollected << "/" << TREASURES << std::endl;
         std::cout << *this << std::endl;
 
         char move;
@@ -174,6 +185,10 @@ bool Board::playGame() {
             default:
                 std::cout << "Invalid move!" << std::endl;
         }
+        cellMap.getElementAtIndex(opponentX).getElementAtIndex(opponentY)->setOpponentState(false);
+        opponentX = rand() % cellMap.getCurrentNumElementsStored();
+        opponentY = rand() % cellMap.getElementAtIndex(0).getCurrentNumElementsStored();
+        cellMap.getElementAtIndex(opponentX).getElementAtIndex(opponentY)->setOpponentState(true);
         if(treasureCollected == TREASURES){
             std::cout << "Congratulations! You collected all treasures!" << std::endl;
             return true; // Game won

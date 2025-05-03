@@ -36,12 +36,3 @@ char Cell::getSymbol() const{
 bool Cell::getOpponentState() const{
     return hasOpponent;
 }
-
-void Cell::display(){
-    if(uncovered){
-        std::cout << symbol;
-    }
-    else{
-        std::cout << '.';
-    }
-}
