@@ -8,16 +8,17 @@ TrapCell::TrapCell(bool u, char c, bool o) : Cell(u, c, o) {}
 
 TrapCell::TrapCell(const TrapCell& rhs) : Cell(rhs) {}
 
-void TrapCell::display(){
+std::ostream& TrapCell::display(std::ostream& out){
     if(hasOpponent){
-        std::cout << 'O';
+        out << 'O';
     }
     else if(uncovered){
-        std::cout << symbol;
+        out << symbol;
     }
     else{
-        std::cout << '.';
+        out << '.';
     }
+    return out;
 }
 
 bool TrapCell::uncover(int* h) {

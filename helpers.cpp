@@ -2,17 +2,9 @@
 #include "cell.h"
 #include "board.h"
 
-std::ostream& operator<<(std::ostream& out, const Cell& c){
+std::ostream& operator<<(std::ostream& out, Cell& c){
     out << "[ ";
-    if(c.hasOpponent){
-        std::cout << 'O';
-    }
-    else if(c.uncovered){
-        out << c.symbol;
-    }
-    else{
-        out << '.';
-    }
+    c.display(out);
     out << " ]";
     return out;
 }

@@ -17,7 +17,7 @@ class Cell{
         bool getUncovered() const;
         char getSymbol() const;
         bool getOpponentState() const;
-        virtual void display() = 0;
+        virtual std::ostream& display(std::ostream&) = 0;
 
         virtual bool uncover(int*) = 0;
 

@@ -8,13 +8,14 @@ EmptyCell::EmptyCell(bool u, char c, bool o) : Cell(u, c, o) {}
 
 EmptyCell::EmptyCell(const EmptyCell& rhs) : Cell(rhs) {}
 
-void EmptyCell::display(){
+std::ostream& EmptyCell::display(std::ostream& out){
     if(hasOpponent){
-        std::cout << 'O';
+        out << 'O';
     }
     else{
-        std::cout << "amogus";
+        out << ".";
     }
+    return out;
 }
 
 bool EmptyCell::uncover(int* h) {

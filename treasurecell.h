@@ -8,7 +8,7 @@ class TreasureCell : public Cell {
         TreasureCell();
         TreasureCell(bool, char, bool);
         TreasureCell(const TreasureCell&);
-        void display();
+        std::ostream& display(std::ostream&);
         bool uncover(int*);
 };
 #endif

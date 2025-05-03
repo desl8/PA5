@@ -8,23 +8,30 @@ TreasureCell::TreasureCell(bool u, char c, bool o) : Cell(u, c, o) {}
 
 TreasureCell::TreasureCell(const TreasureCell& rhs) : Cell(rhs) {}
 
-void TreasureCell::display(){
+std::ostream& TreasureCell::display(std::ostream& out){
     if(hasOpponent){
-        std::cout << 'O';
+        out << 'O';
     }
     else if(uncovered){
-        std::cout << symbol;
+        out << symbol;
     }
     else{
-        std::cout << '.';
+        out << '.';
     }
+    return out;
 }
 
-bool TreasureCell::uncover(int* h) {
-    uncovered = true;
+bool TreasureCell::uncover(int* h){
     if(hasOpponent) {
         *h -= 30;
     }
-    std::cout << "You have found a treasure!" << std::endl;
-    return true;
+    if(!uncovered){
+        uncovered = true;
+        std::cout << "You have found a treasure!" << std::endl;
+        return true;
+    }
+    else{
+        std::cout << "You have already uncovered this treasure!" << std::endl;
+        return false;
+    }
 }
