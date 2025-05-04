@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <stdlib.h>
+#include <time.h>
 #include "board.h"
 #include "leaderboardmanager.h"
 #include "helpers.h"
@@ -8,6 +10,7 @@
 
 int main(){
     std::cout << "Welcome to the treasure hunt game!" << std::endl;
+    srand(time(0)); // Only need to seed once
     string playerName;
     bool validName = false;
     while(!validName){
