@@ -186,8 +186,10 @@ bool Board::playGame() {
                 std::cout << "Invalid move!" << std::endl;
         }
         cellMap->getElementAtIndex(opponentY).getElementAtIndex(opponentX)->setOpponentState(false);
-        opponentX = rand() % cellMap->getCurrentNumElementsStored();
-        opponentY = rand() % cellMap->getElementAtIndex(0).getCurrentNumElementsStored();
+        do{
+            opponentX = rand() % cellMap->getElementAtIndex(0).getCurrentNumElementsStored();
+            opponentY = rand() % cellMap->getCurrentNumElementsStored();
+        }while(opponentX == playerX && opponentY == playerY); // Make sure the opponent is not on the same cell as the player
         cellMap->getElementAtIndex(opponentY).getElementAtIndex(opponentX)->setOpponentState(true);
         if(treasureCollected == TREASURES){
             std::cout << "Congratulations! You collected all treasures!" << std::endl;

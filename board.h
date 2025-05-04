@@ -2,6 +2,8 @@
 #define BOARD_H
 
 #include <iostream>
+#include <stdlib.h>
+#include <time.h>
 #include "dynamicArray.h"
 #include "cell.h"
 #include "emptycell.h"
