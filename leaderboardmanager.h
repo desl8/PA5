@@ -21,5 +21,7 @@ class LeaderboardManager{
         void load(string);
         void write(string);
         int getLength();
+
+        friend std::ostream& operator<<(std::ostream&, const LeaderboardManager&);
 };
 #endif

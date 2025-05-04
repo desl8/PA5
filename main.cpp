@@ -8,12 +8,26 @@
 int main(){
     std::cout << "Welcome to the treasure hunt game!" << std::endl;
     string playerName;
-    std::cout << "Please enter your name: ";
-    std::cin >> playerName;
+    bool validName = false;
+    while(!validName){
+        std::cout << "Please enter your name: ";
+        getline(cin, playerName);
+        validName = true; // Assume name is valid
+        for(int i = 0; i < playerName.length(); i++){
+            if(playerName[i] == ' '){
+                std::cout << "Invalid name. Spaces are not allowed" << std::endl;
+                validName = false; // Set to false if space is found
+                break; // Exit the loop
+            }
+        }
+        if(playerName == ""){
+            std::cout << "Invalid name. Name cannot be empty." << std::endl;
+            validName = false; // Set to false if name is empty
+        }
+    }
     LeaderboardManager leaderboard;
     leaderboard.load("leaderboard.txt");
     int winStreak = 0;
-    std::cout << leaderboard.getLength() << std::endl;
     while(true){  
         Board board;
         if(board.playGame()){
@@ -32,31 +46,22 @@ int main(){
             std::cin >> playAgain;
         }
         if(playAgain == 'n'){
-            int lastindex;
-            if(leaderboard.getLength() < 10){ // If leaderboard is empty
-                lastindex = leaderboard.getLength();
-            }
-            else{
-                lastindex = 9;
-            }
-            cout << lastindex << endl;
-            if(winStreak > leaderboard.getElementAtIndex(lastindex)->getPlayerScore()){ // If eligible for leaderboard
+            if(winStreak > leaderboard.getElementAtIndex(leaderboard.getLength() - 1)->getPlayerScore()){ // If eligible for leaderboard
                 int placement;
-                std::cout << "Congratulations! You made it to the leaderboard!" << std::endl;
-                for(int i = 0; i < lastindex; i++){
-                    if(winStreak > leaderboard.getElementAtIndex(i)->getPlayerScore()){
+                bool added = false;
+                for(int i = 0; i < leaderboard.getLength(); i++){
+                    if(winStreak > leaderboard.getElementAtIndex(i)->getPlayerScore() && !added){
+                        added = true;
                         leaderboard.addEntryAtIndex(i, winStreak, playerName);
                         placement = i+1;
-                        break;
                     }
                 }
-                if(lastindex < 9){ // If leaderboard is full
-                    leaderboard.addEntry(winStreak, playerName);
-                    placement = lastindex + 2;
+                if(placement < 11){
+                    std::cout << "Congratulations, " << playerName << "! You made it to the top 10!" << std::endl;
+                    std::cout << "You are in spot #" << placement << " with a streak of " << winStreak  << "!" << std::endl;
                 }
-                std::cout << "You are in placement #" << placement << " with a score of " << winStreak << std::endl;
-                leaderboard.addEntry(winStreak, playerName);
             std::cout << "Thanks for playing!" << std::endl;
+            std::cout << "Leaderboard:" << endl << leaderboard;
             leaderboard.write("leaderboard.txt");
             return 0;
             }

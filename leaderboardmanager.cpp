@@ -32,6 +32,7 @@ void LeaderboardManager::addEntry(int score, string name) {
         tail->setNext(newEntry);
         tail = newEntry;
     }
+    length++;
 }
 
 void LeaderboardManager::addEntryAtIndex(int index, int score, string name) {
@@ -58,6 +59,7 @@ void LeaderboardManager::addEntryAtIndex(int index, int score, string name) {
             tail = newEntry;
         }
     }
+    length++;
 }
 LBEntry* LeaderboardManager::getElementAtIndex(int index) {
     LBEntry* current = head;
@@ -68,19 +70,20 @@ LBEntry* LeaderboardManager::getElementAtIndex(int index) {
 }
 
 void LeaderboardManager::load(string filename){
+    int i = 0;
     ifstream file(filename);
     if (!file.is_open()) {
         std::cout << "Error opening file: " << filename << std::endl;
-        return;
     }
-    string name;
-    int score;
-    int i = 0;
-    while (file >> name >> score && i <= 10) {
-        addEntry(score, name);
-        i++;
+    else{
+        string name;
+        int score;
+        while (file >> name >> score && i <= 10) {
+            addEntry(score, name);
+            i++;
+        }
+        file.close();
     }
-    file.close();
     addEntry(-1, ""); // Add an empty entry to avoid segmentation fault
     length = i + 1;
 }
@@ -97,8 +100,11 @@ void LeaderboardManager::write(string filename) {
             current = current->getNext();
             continue;
         }
-        file << current->getPlayerName() << " " << current->getPlayerScore() << endl;
+        file << current->getPlayerName() << " " << current->getPlayerScore();
         current = current->getNext();
+        if(current->getNext() != nullptr) {
+            file << std::endl; // Add a newline if not the last entry
+        }
     }
     file.close();
 }
