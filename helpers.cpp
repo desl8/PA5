@@ -1,7 +1,4 @@
-#include <iostream>
-#include "cell.h"
-#include "board.h"
-#include "leaderboardmanager.h"
+#include "helpers.h"
 
 std::ostream& operator<<(std::ostream& out, Cell& c){
     out << "[ ";
@@ -38,4 +35,59 @@ std::ostream& operator<<(std::ostream& out, const LeaderboardManager& lbm){
         i++;
     }
     return out;
+}
+
+void writeToFile(string playerName, const int playerScore){
+    std::ofstream file(playerName + ".txt");
+    if (!file.is_open()) {
+        std::cout << "Error opening file: " << playerName + ".txt" << std::endl;
+        return;
+    }
+    file << playerScore;
+    file.close();
+}
+
+bool readFromFile(string playerName, int& playerScore){
+    DIR *directoryPtr = opendir(".");
+    ifstream file;
+    struct dirent *directoryEntry;
+    if (directoryPtr) {
+        while ((directoryEntry = readdir(directoryPtr)) != NULL) {
+            string filename = directoryEntry->d_name;
+            string empty = "";
+            if(filename == playerName + ".txt"){
+                ifstream file(filename);
+                if (!file.is_open()) {
+                    std::cout << "Error opening file: " << playerName + ".txt" << std::endl;
+                    return false;
+                }
+                file >> playerScore;
+                file.close();
+                return true;
+            }
+        }   
+        closedir(directoryPtr); //close all directory
+    }
+    return false; // Return false if file not found
+}
+
+void writeLeaderboard(LeaderboardManager& leaderboard, string playerName, int winStreak){
+    if(winStreak > leaderboard.getElementAtIndex(leaderboard.getLength() - 1)->getPlayerScore()){ // If eligible for leaderboard
+        int placement;
+        bool added = false;
+        for(int i = 0; i < leaderboard.getLength(); i++){
+            if(winStreak > leaderboard.getElementAtIndex(i)->getPlayerScore() && !added){
+                added = true;
+                leaderboard.addEntryAtIndex(i, winStreak, playerName);
+                placement = i+1;
+            }
+        }
+        if(placement < 11){
+            std::cout << "Congratulations, " << playerName << "! You made it to the top 10!" << std::endl;
+            std::cout << "You are in spot #" << placement << " with a streak of " << winStreak  << "!" << std::endl;
+        }
+    std::cout << "Thanks for playing!" << std::endl;
+    std::cout << "Leaderboard:" << endl << leaderboard;
+    leaderboard.write("leaderboard.txt");
+    }
 }

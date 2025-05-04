@@ -3,6 +3,7 @@
 #include <string>
 #include "board.h"
 #include "leaderboardmanager.h"
+#include "helpers.h"
 
 
 int main(){
@@ -24,10 +25,20 @@ int main(){
             std::cout << "Invalid name. Name cannot be empty." << std::endl;
             validName = false; // Set to false if name is empty
         }
+        else if(playerName == "leaderboard"){
+            std::cout << "Bruh..." << std::endl;
+            validName = false; // Set to false if name is empty
+        }
     }
     LeaderboardManager leaderboard;
     leaderboard.load("leaderboard.txt");
     int winStreak = 0;
+    if(readFromFile(playerName, winStreak)){
+        std::cout << "Welcome back, " << playerName << "! Your current win streak is: " << winStreak << std::endl;
+    }
+    else{
+        std::cout << "Welcome, " << playerName << "! This is your first time playing!" << std::endl;
+    }
     while(true){  
         Board board;
         if(board.playGame()){
@@ -36,6 +47,7 @@ int main(){
         }
         else{
             std::cout << "Your win streak was: " << winStreak << std::endl;
+            writeLeaderboard(leaderboard, playerName, winStreak);
             winStreak = 0;
         }
         char playAgain;
@@ -46,25 +58,9 @@ int main(){
             std::cin >> playAgain;
         }
         if(playAgain == 'n'){
-            if(winStreak > leaderboard.getElementAtIndex(leaderboard.getLength() - 1)->getPlayerScore()){ // If eligible for leaderboard
-                int placement;
-                bool added = false;
-                for(int i = 0; i < leaderboard.getLength(); i++){
-                    if(winStreak > leaderboard.getElementAtIndex(i)->getPlayerScore() && !added){
-                        added = true;
-                        leaderboard.addEntryAtIndex(i, winStreak, playerName);
-                        placement = i+1;
-                    }
-                }
-                if(placement < 11){
-                    std::cout << "Congratulations, " << playerName << "! You made it to the top 10!" << std::endl;
-                    std::cout << "You are in spot #" << placement << " with a streak of " << winStreak  << "!" << std::endl;
-                }
-            std::cout << "Thanks for playing!" << std::endl;
-            std::cout << "Leaderboard:" << endl << leaderboard;
-            leaderboard.write("leaderboard.txt");
+            writeLeaderboard(leaderboard, playerName, winStreak);
+            writeToFile(playerName, winStreak);
             return 0;
-            }
         }
     }
     return 0; // So intellisense doesn't complain
