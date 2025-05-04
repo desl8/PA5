@@ -21,6 +21,7 @@ class LeaderboardManager{
         void load(string);
         void write(string);
         int getLength();
+        void deleteEntryAtIndex(int index);
 
         friend std::ostream& operator<<(std::ostream&, const LeaderboardManager&);
 

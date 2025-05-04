@@ -61,6 +61,30 @@ void LeaderboardManager::addEntryAtIndex(int index, int score, string name) {
     }
     length++;
 }
+
+void LeaderboardManager::deleteEntryAtIndex(int index) {
+    if (index < 0 || index >= length) {
+        std::cout << "Index out of bounds." << std::endl;
+        return;
+    }
+    LBEntry* current = head;
+    if (index == 0) {
+        head = current->getNext();
+        delete current;
+    } else {
+        for (int i = 0; i < index - 1; i++) {
+            current = current->getNext();
+        }
+        LBEntry* toDelete = current->getNext();
+        current->setNext(toDelete->getNext());
+        if (toDelete == tail) {
+            tail = current;
+        }
+        delete toDelete;
+    }
+    length--;
+}
+
 LBEntry* LeaderboardManager::getElementAtIndex(int index) {
     LBEntry* current = head;
     for (int i = 0; i < index && current != nullptr; i++) {

@@ -76,6 +76,9 @@ void writeLeaderboard(LeaderboardManager& leaderboard, string playerName, int wi
         int placement;
         bool added = false;
         for(int i = 0; i < leaderboard.getLength(); i++){
+            if (leaderboard.getElementAtIndex(i)->getPlayerName() == playerName) {
+                leaderboard.deleteEntryAtIndex(i); // Remove the old entry
+            }
             if(winStreak > leaderboard.getElementAtIndex(i)->getPlayerScore() && !added){
                 added = true;
                 leaderboard.addEntryAtIndex(i, winStreak, playerName);
