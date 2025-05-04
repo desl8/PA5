@@ -95,16 +95,19 @@ void LeaderboardManager::write(string filename) {
         return;
     }
     LBEntry* current = head;
-    while (current != nullptr) {
+    int i = 0;
+    // Write only the top 10 entries
+    while (current != nullptr && i < 10) {
         if(current->getPlayerName() == "" || current->getPlayerScore() < 0) { //Avoid writing empty or negative scores
             current = current->getNext();
             continue;
         }
         file << current->getPlayerName() << " " << current->getPlayerScore();
         current = current->getNext();
-        if(current->getNext() != nullptr) {
+        if(i < 9) {
             file << std::endl; // Add a newline if not the last entry
         }
+        i++;
     }
     file.close();
 }
