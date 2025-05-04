@@ -112,3 +112,22 @@ void LeaderboardManager::write(string filename) {
 int LeaderboardManager::getLength() {
     return length;
 }
+
+LeaderboardManager& LeaderboardManager::operator=(const LeaderboardManager& rhs) {
+    LBEntry* current = rhs.head;
+    while (current != nullptr) {
+        addEntry(current->getPlayerScore(), current->getPlayerName());
+        tail = current;
+        current = current->getNext();
+    }
+    return *this;
+}
+
+LeaderboardManager::~LeaderboardManager() {
+    LBEntry* current = head;
+    while (current != nullptr) {
+        LBEntry* next = current->getNext();
+        delete current;
+        current = next;
+    }
+}

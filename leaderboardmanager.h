@@ -23,5 +23,9 @@ class LeaderboardManager{
         int getLength();
 
         friend std::ostream& operator<<(std::ostream&, const LeaderboardManager&);
+
+        LeaderboardManager& operator=(const LeaderboardManager&);
+
+        ~LeaderboardManager();
 };
 #endif
