@@ -1,4 +1,4 @@
-#include "lbEntry.h"
+#include "lbentry.h"
 using namespace std;
 
 LBEntry::LBEntry() {
