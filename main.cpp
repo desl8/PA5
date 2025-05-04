@@ -1,5 +1,9 @@
 #include <iostream>
+#include <fstream>
+#include <string>
 #include "board.h"
+#include "helpers.h"
+
 
 int main(){
     std::cout << "Welcome to the treasure hunt game!" << std::endl;

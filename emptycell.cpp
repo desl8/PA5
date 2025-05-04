@@ -12,8 +12,11 @@ std::ostream& EmptyCell::display(std::ostream& out){
     if(hasOpponent){
         out << 'O';
     }
+    else if(uncovered){
+        out << symbol;
+    }
     else{
-        out << ".";
+        out << '?';
     }
     return out;
 }

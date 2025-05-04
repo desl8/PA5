@@ -15,7 +15,7 @@ class Board{
     int treasureCollected;
     int opponentX;
     int opponentY;
-    DynamicArray<DynamicArray<Cell*>> cellMap;
+    DynamicArray<DynamicArray<Cell*>>* cellMap;
 
     void generate(int, int, int, int);
     void moveUp();
@@ -26,7 +26,7 @@ class Board{
 
     public:
         Board();
-        Board(int, int, int, int, DynamicArray<DynamicArray<Cell*>>, int, int);
+        Board(int, int, int, int, DynamicArray<DynamicArray<Cell*>>*, int, int);
         Board(const Board&);
         void setPlayerHealth(int);
         void setTreasureCollected(int);
@@ -34,5 +34,9 @@ class Board{
         int getTreasureCollected();
         bool playGame();
         friend std::ostream& operator<<(std::ostream&, const Board&);
+
+        Board& operator=(const Board&);
+
+        ~Board();
 };
 #endif

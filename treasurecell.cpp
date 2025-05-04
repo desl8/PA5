@@ -16,7 +16,7 @@ std::ostream& TreasureCell::display(std::ostream& out){
         out << symbol;
     }
     else{
-        out << '.';
+        out << '?';
     }
     return out;
 }

@@ -1,5 +1,5 @@
-treasure_hunt: main.o board.o cell.o emptycell.o treasurecell.o trapcell.o helpers.o
-	g++ -o treasure_hunt main.o board.o cell.o emptycell.o treasurecell.o trapcell.o helpers.o -g
+treasure_hunt: main.o board.o cell.o emptycell.o treasurecell.o trapcell.o leaderboardmanager.o lbentry.o helpers.o
+	g++ -o treasure_hunt main.o board.o cell.o emptycell.o treasurecell.o trapcell.o leaderboardmanager.o lbentry.o helpers.o -g
 main.o: main.cpp
 	g++ -c main.cpp -g
 board.o: board.cpp board.h cell.h emptycell.h treasurecell.h trapcell.h
@@ -12,6 +12,10 @@ treasurecell.o: treasurecell.cpp treasurecell.h cell.h
 	g++ -c treasurecell.cpp -g
 trapcell.o: trapcell.cpp trapcell.h cell.h
 	g++ -c trapcell.cpp -g
+leaderboardmanager.o: leaderboardmanager.cpp leaderboardmanager.h
+	g++ -c leaderboardmanager.cpp -g
+lbentry.o: lbentry.cpp lbentry.h
+	g++ -c lbentry.cpp -g
 helpers.o: helpers.cpp cell.h board.h
 	g++ -c helpers.cpp -g
 clean:
