@@ -12,8 +12,8 @@ int main(){
     srand(time(0)); //Only need to seed once
     int winStreak = 0;
     while(true){  
-        Board board;
-        if(board.playGame()){
+        Board* board = new Board;
+        if(board->playGame()){
             winStreak++;
             std::cout << "Congratulations! You won " << winStreak << " games in a row!" << std::endl;
         }
