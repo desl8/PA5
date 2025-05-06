@@ -30,6 +30,7 @@ int main(){
         }
         if(playAgain == 'n'){
             std::cout << "Thanks for playing!" << std::endl;
+            delete board;
             return 0;
         }
     }
