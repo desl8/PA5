@@ -65,6 +65,8 @@ int main(){
         if(playAgain == 'n'){
             writeLeaderboard(*leaderboard, playerName, winStreak);
             writeToFile(playerName, winStreak);
+            delete leaderboard
+            delete board;
             return 0;
         }
     }
