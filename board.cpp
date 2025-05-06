@@ -35,7 +35,7 @@ Board::Board(const Board& rhs) {
 }
 
 void Board::generate(int rows, int cols, int traps, int treasures) {
-   cellMap->clearArray();
+    cellMap->clearArray();
     for (int i = 0; i < rows; i++) {
         DynamicArray<Cell*>* row = new DynamicArray<Cell*>;
         for (int j = 0; j < cols; j++) {
@@ -160,6 +160,9 @@ int Board::getTreasureCollected() {
 
 bool Board::playGame() {
     generate(ROWS, COLS, TRAPS, TREASURES);
+    playerX = 0;
+    playerY = 0;
+    cellMap->getElementAtIndex(0).getElementAtIndex(0)->uncover(&playerHealth);
     while (playerHealth > 0) {
         std::cout << "Player Health: " << playerHealth << std::endl;
         std::cout << "Treasures Collected: " << treasureCollected << "/" << TREASURES << std::endl;
