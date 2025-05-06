@@ -30,11 +30,13 @@ int main(){
         }
         else if(playerName == "leaderboard"){
             std::cout << "Bruh..." << std::endl;
-            validName = false; // Set to false if name is empty
+            validName = false; // This idiot just tried to set their name to "leaderboard"
+            //Why?
+            //To nullify my hard work by writing their pitiful win streak over my leaderboard?
         }
     }
-    LeaderboardManager leaderboard;
-    leaderboard.load("leaderboard.txt");
+    LeaderboardManager* leaderboard = new LeaderboardManager;
+    leaderboard->load("leaderboard.txt");
     int winStreak = 0;
     if(readFromFile(playerName, winStreak)){
         std::cout << "Welcome back, " << playerName << "! Your current win streak is: " << winStreak << std::endl;
@@ -43,14 +45,14 @@ int main(){
         std::cout << "Welcome, " << playerName << "! This is your first time playing!" << std::endl;
     }
     while(true){  
-        Board board;
-        if(board.playGame()){
+        Board* board = new Board;
+        if(board->playGame()){
             winStreak++;
             std::cout << "Congratulations! You won " << winStreak << " games in a row!" << std::endl;
         }
         else{
             std::cout << "Your win streak was: " << winStreak << std::endl;
-            writeLeaderboard(leaderboard, playerName, winStreak);
+            writeLeaderboard(*leaderboard, playerName, winStreak);
             winStreak = 0;
         }
         char playAgain;
@@ -61,7 +63,7 @@ int main(){
             std::cin >> playAgain;
         }
         if(playAgain == 'n'){
-            writeLeaderboard(leaderboard, playerName, winStreak);
+            writeLeaderboard(*leaderboard, playerName, winStreak);
             writeToFile(playerName, winStreak);
             return 0;
         }
