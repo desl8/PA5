@@ -160,6 +160,9 @@ int Board::getTreasureCollected() {
 
 bool Board::playGame() {
     generate(ROWS, COLS, TRAPS, TREASURES);
+    playerX = 0;
+    playerY = 0;
+    cellMap->getElementAtIndex(0).getElementAtIndex(0)->uncover(&playerHealth);
     while (playerHealth > 0) {
         std::cout << "Player Health: " << playerHealth << std::endl;
         std::cout << "Treasures Collected: " << treasureCollected << "/" << TREASURES << std::endl;
